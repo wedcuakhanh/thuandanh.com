@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gửi Thư Ẩn Danh — Điều tiếc nuối nhất thời học sinh</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fff0f6;
+        --card: #ffffff;
+        --accent: #ff6fa3;
+        --muted: #8b8b8b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        background: linear-gradient(180deg, #fff7fb 0%, #fff0f6 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+      }
+      .wrap {
+        width: 100%;
+        max-width: 980px;
+        background: var(--card);
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .logo-img {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--accent);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+      }
+      p.lead {
+        margin: 6px 0 18px;
+        color: var(--muted);
+      }
+
+      .content {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 20px;
+      }
+
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.85),
+          rgba(255, 255, 255, 0.7)
+        );
+        padding: 18px;
+        border-radius: 14px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        color: #444;
+        margin-bottom: 8px;
+      }
+      textarea {
+        width: 100%;
+        min-height: 180px;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid #f0dbe3;
+        background: transparent;
+        resize: vertical;
+        font-size: 14px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 12px;
+      }
+      .btn {
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: 0;
+        background: var(--accent);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn.secondary {
+        background: #ffeaf4;
+        color: #333;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      /* Bird & envelope area */
+      .stage {
+        position: relative;
+        height: 320px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .sky {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, #fff0ff, rgba(255, 255, 255, 0));
+      }
+
+      .envelope {
+        width: 140px;
+        height: 96px;
+        background: linear-gradient(180deg, #fff, #ffeef7);
+        border-radius: 8px;
+        border: 2px solid #ffd1e8;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 18px rgba(255, 110, 150, 0.12);
+        transform-origin: center center;
+      }
+      .envelope .flap {
+        position: absolute;
+        top: 6px;
+        left: 0;
+        right: 0;
+        height: 60px;
+        transform-origin: top center;
+        background: linear-gradient(135deg, #ff9ac2, #ffd1e8);
+        clip-path: polygon(0 0, 50% 100%, 100% 0);
+        border-radius: 8px;
+      }
+      .envelope .paper {
+        width: 86%;
+        height: 70%;
+        background: white;
+        border-radius: 6px;
+        box-shadow: inset 0 -6px 12px rgba(0, 0, 0, 0.03);
+      }
+
+      .bird {
+        position: absolute;
+        left: -120px;
+        top: 20px;
+        width: 120px;
+        height: 80px;
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      .bird svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* animations */
+      .fly {
+        animation: flyAcross 1.6s ease-in-out forwards;
+      }
+      .lift {
+        animation: liftUp 1.6s cubic-bezier(0.2, 0.9, 0.28, 1) forwards;
+      }
+      @keyframes flyAcross {
+        0% {
+          left: -140px;
+          top: 20px;
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          left: 520px;
+          top: -60px;
+          opacity: 1;
+        }
+      }
+      @keyframes liftUp {
+        0% {
+          transform: translateY(0) scale(1);
+        }
+        30% {
+          transform: translateY(-30px) scale(1.02);
+        }
+        100% {
+          transform: translateY(-420px) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      /* modal */
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(10, 10, 10, 0.35);
+        visibility: hidden;
+        opacity: 0;
+        transition: all 0.25s;
+      }
+      .modal.show {
+        visibility: visible;
+        opacity: 1;
+      }
+      .modal .box {
+        background: white;
+        padding: 22px;
+        border-radius: 14px;
+        max-width: 420px;
+        text-align: center;
+      }
+
+      /* list of messages */
+      .list {
+        max-height: 240px;
+        overflow: auto;
+        padding: 12px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #fff0f6, #fff8fb);
+      }
+      .msg {
+        background: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+      }
+      .meta {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+
+      footer {
+        margin-top: 14px;
+        text-align: center;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      @media (max-width: 900px) {
+        .content {
+          grid-template-columns: 1fr;
+        }
+        .bird {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <img src="12cb2.jpg" alt="Logo" class="logo-img" />
+        <div>
+          <h1>Gửi thư ẩn danh — Điều tiếc nuối nhất thời học sinh</h1>
+          <p class="lead">
+            Viết ra điều bạn tiếc nuối nhất thời học sinh. Thư sẽ được ẩn danh
+            và đưa lên trang TẬP THỂ 12CB2.
+          </p>
+        </div>
+      </header>
+
+      <div class="content" style="margin-top: 18px">
+        <div>
+          <form id="letterForm" class="card" autocomplete="off">
+            <label for="content">Nội dung thư (giới hạn 800 ký tự)</label>
+            <textarea
+              id="content"
+              maxlength="800"
+              placeholder="Ví dụ: Mình tiếc vì đã không nói lời xin lỗi..."
+              required
+            ></textarea>
+            <div class="row">
+              <button type="submit" class="btn">Gửi ẩn danh</button>
+              <button type="button" id="previewBtn" class="btn secondary">
+                Xem trước
+              </button>
+              <div class="small">
+                Số ký tự còn lại: <span id="remain">800</span>
+              </div>
+            </div>
+          </form>
+
+          <div style="margin-top: 14px">
+            <div class="card">
+              <strong>Ghi chú</strong>
+              <p class="small" style="margin-top: 6px">
+                Thư gửi đi sẽ không lưu tên. Vui lòng không chia sẻ nội dung có
+                thông tin cá nhân nhận dạng (tên thật, địa chỉ, số điện thoại).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card stage">
+            <div class="sky"></div>
+
+            <div class="envelope" id="envelope">
+              <div class="flap"></div>
+              <div class="paper"></div>
+            </div>
+
+            <div class="bird" id="bird">
+              <!-- simple bird SVG -->
+              <svg viewBox="0 0 64 38" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M2 22c10-8 18-8 30-4 10 3 18 2 30-6"
+                  fill="none"
+                  stroke="#ff6fa3"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M44 8c1 1 3 2 5 1"
+                  fill="none"
+                  stroke="#ff6fa3"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+                <circle cx="18" cy="14" r="2" fill="#ff6fa3" />
+              </svg>
+            </div>
+          </div>
+
+          <div style="margin-top: 12px" class="card">
+            <strong>Thư đã gửi (TẬP THỂ 12CB2)</strong>
+            <div id="list" class="list" aria-live="polite"></div>
+          </div>
+        </aside>
+      </div>
+
+      <footer>© TẬP THỂ 12CB2 — Thư ẩn danh</footer>
+    </div>
+
+    <div class="modal" id="modal">
+      <div class="box">
+        <h3>Cảm ơn bạn đã gửi thư</h3>
+        <p class="small" style="margin-top: 8px">
+          Lời nhắn của bạn sẽ được ẩn danh và đưa lên trang
+          <strong>TẬP THỂ 12CB2</strong>. Xin cảm ơn ❤️
+        </p>
+        <div style="margin-top: 12px">
+          <button id="modalClose" class="btn">Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  const form = document.getElementById("letterForm");
+  const content = document.getElementById("content");
+  const remain = document.getElementById("remain");
+  const envelope = document.getElementById("envelope");
+  const bird = document.getElementById("bird");
+  const modal = document.getElementById("modal");
+  const modalClose = document.getElementById("modalClose");
+  const list = document.getElementById("list");
+  const previewBtn = document.getElementById("previewBtn");
+
+  // Đếm ký tự còn lại
+  content.addEventListener("input", () => {
+    remain.textContent = 800 - content.value.length;
+  });
+
+  // Tải thư đã lưu trong localStorage
+  function loadMessages() {
+    const data = JSON.parse(localStorage.getItem("lt_messages_12CB2") || "[]");
+    list.innerHTML = "";
+    if (data.length === 0) {
+      list.innerHTML = '<div class="small">Chưa có thư nào được gửi.</div>';
+      return;
+    }
+    data
+      .slice()
+      .reverse()
+      .forEach((msg) => {
+        const el = document.createElement("div");
+        el.className = "msg";
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = `Ẩn danh • ${new Date(msg.t).toLocaleString()}`;
+        const body = document.createElement("div");
+        body.textContent = msg.text;
+        el.appendChild(meta);
+        el.appendChild(body);
+        list.appendChild(el);
+      });
+  }
+  loadMessages();
+
+  // Xem trước thư
+  previewBtn.addEventListener("click", () => {
+    const v = content.value.trim();
+    if (!v) return alert("Vui lòng nhập nội dung để xem trước.");
+    const w = window.open("", "_blank", "width=520,height=420");
+    w.document.write(
+      `<title>Xem trước thư</title><meta charset="utf-8"><style>body{font-family:Arial;padding:18px;background:#fff7fb} .card{background:#fff;padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}</style><div class="card"><h3>Thư (Xem trước)</h3><p>${escapeHtml(
+        v
+      ).replace(/\n/g, "<br>")}</p></div>`
+    );
+    w.document.close();
+  });
+
+  // Xử lý gửi thư
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = content.value.trim();
+    if (!text) return alert("Nội dung trống.");
+
+    const timestamp = new Date().toLocaleString();
+    const dataToSend = `Ẩn danh — ${timestamp}\n\n${text}`;
+
+    // Lưu vào localStorage
+    const arr = JSON.parse(localStorage.getItem("lt_messages_12CB2") || "[]");
+    arr.push({ text, t: Date.now() });
+    localStorage.setItem("lt_messages_12CB2", JSON.stringify(arr));
+
+    // Gửi đến Formspree
+    try {
+      await fetch("https://formspree.io/f/xkgqlgbb", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: dataToSend }),
+      });
+    } catch (err) {
+      console.warn("Không thể gửi đến Formspree:", err);
+    }
+
+    // Hiệu ứng chú chim + lá thư
+    envelope.classList.remove("lift");
+    void envelope.offsetWidth;
+    bird.classList.remove("fly");
+    void bird.offsetWidth;
+    envelope.classList.add("lift");
+    bird.classList.add("fly");
+
+    // Hiện thông báo cảm ơn
+    setTimeout(() => {
+      modal.classList.add("show");
+      loadMessages();
+      content.value = "";
+      remain.textContent = 800;
+      setTimeout(() => {
+        envelope.classList.remove("lift");
+        bird.classList.remove("fly");
+      }, 900);
+    }, 900);
+  });
+
+  modalClose.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>\"']/g, function (c) {
+      return {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[c];
+    });
+  }
+</script>
+
+  </body>
+</html>
